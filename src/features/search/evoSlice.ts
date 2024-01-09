@@ -27,7 +27,6 @@ export const evoSlice = createSlice({
   initialState,
   reducers: {
     setEvolutionChain(state: EvolutionLineState, action) {
-      console.log('setevo action payload', action.payload)
       if (action.payload) {
         state.formatted_evos = apiToEvolutionsFormat(action.payload)
       }
