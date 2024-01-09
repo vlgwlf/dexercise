@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { type_to_hex_dict } from '../../common/reference-tables';
+import { type_to_hex_dict } from '../../../utils/reference-tables';
 
 const CardBody = styled.div<{$type?: string}>`
   background-color: #eeeeee;

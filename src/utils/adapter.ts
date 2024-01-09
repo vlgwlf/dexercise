@@ -1,4 +1,4 @@
-import { Pokemon } from "./types";
+import { Pokemon, SpeciesInfo } from "./types";
 
 // using anys here because of unpredictability of the api shape
 // however we do know that it should return a Pokemon type object
@@ -26,3 +26,28 @@ export const apiToPokemonFormat = (pokemon_data: any): Pokemon | null => {
 
   return null
 };
+
+export const apiToSpeciesFormat = (species_data: any): SpeciesInfo | null => {
+  console.log(species_data)
+  if (species_data.order) {
+    let formatted: SpeciesInfo = {
+      flavor_text: findENText(species_data.flavor_text_entries, 'flavor_text'),
+      genus: findENText(species_data.genera, 'genus')
+    }
+
+    return formatted
+  }
+
+  return null
+}
+
+const findENText = (languages: any[], parameter: string): string => {
+  let en_text = ''
+  languages.forEach((entry: any) => {
+    if (entry.language.name === 'en') {
+       en_text = entry[parameter]
+    }
+  })
+  
+  return en_text
+}

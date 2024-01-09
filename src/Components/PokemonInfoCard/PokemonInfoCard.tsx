@@ -9,16 +9,21 @@ import {
   Column,
   TypeBadge,
   PokeLoader,
+  Description
 } from './components/styled';
 import { PokedexState, setCurrentPokemon, pushToHistory } from '../../features/search/dexSlice';
-import { Ability, Pokemon, Stat } from '../../utils/types';
-import { api_to_readable_stat } from '../common/reference-tables';
+import { SpeciesInfoState, fetchSpecies, setSpeciesInfo } from '../../features/search/speciesSlice';
+import { Ability, Pokemon, SpeciesInfo, Stat } from '../../utils/types';
+import { api_to_readable_stat } from '../../utils/reference-tables';
+import { AppDispatch } from '../../app/store';
 
 const PokemonInfoCard = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const current_raw_mon = useSelector((state: {pokemon: PokedexState}) => state.pokemon.raw_pokemon)
   const formatted_mon: Pokemon | null = useSelector((state: {pokemon: PokedexState}) => state.pokemon.current_mon)
-  
+  const raw_species_info = useSelector((state: {speciesData: SpeciesInfoState}) => state.speciesData.raw_species_info)
+  const species_info: SpeciesInfo | null = useSelector((state: {speciesData: SpeciesInfoState}) => state.speciesData.current_info)
+
   useEffect(() => {
     dispatch(setCurrentPokemon(current_raw_mon))
   }, [current_raw_mon]) // updates the current pokemon when raw data is changed
@@ -30,9 +35,19 @@ const PokemonInfoCard = () => {
   const loading: Boolean = useSelector((state: { pokemon: PokedexState }) => state.pokemon.loading)
   const error: String | undefined = useSelector((state: { pokemon: PokedexState }) => state.pokemon.error)
 
-  // useEffect(() => {
-  //   // call evolution line dispatcher
-  // }, [formatted_mon])
+
+  useEffect(() => {
+    if (current_raw_mon) {
+      const id = formatted_mon!.national_dex_no.toString()
+      dispatch(fetchSpecies(id))
+    }
+  }, [formatted_mon])
+  
+  useEffect(() => {
+    if (raw_species_info) {
+      dispatch(setSpeciesInfo(raw_species_info))
+    }
+  }, [raw_species_info])
 
   const evolution_line: any = [] //placeholder
 
@@ -48,6 +63,9 @@ const PokemonInfoCard = () => {
               src={formatted_mon.large_sprite}
               $type={formatted_mon.types[0]}
             />
+            <Description>
+              {species_info ? `"${species_info.genus}"` : ''}
+            </Description>
             <Row>
               {
                 formatted_mon.types.length
@@ -57,12 +75,12 @@ const PokemonInfoCard = () => {
             </Row>
           </Column>
           <Column $align='left' aria-label="Detailed information display">
-            <Row $align='flex-start' $spacing='flex-start'> {/* Evo Row */}
+            {/* <Row $align='flex-start' $spacing='flex-start'>
               <Column $align='left'>
                 <MainHeader>
                   Evolutions
                 </MainHeader>
-                <Row $no_padding $spacing='flex-start'> {/* Refactor into it's own component */}
+                <Row $no_padding $spacing='flex-start'>
                   {
                       evolution_line.length
                       ? (
@@ -74,7 +92,7 @@ const PokemonInfoCard = () => {
                   }
                 </Row>
               </Column>
-            </Row>
+            </Row> */}
             <Row $spacing='space-between'> {/* Stat & Ability Row */}
               <Column $align='flex-start'>
                 <MainHeader>

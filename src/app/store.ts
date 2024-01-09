@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 // import counterReducer from '../features/counter/counterSlice';
 import dexReducer from '../features/search/dexSlice';
 import evoReducer from '../features/search/evoSlice';
+import speciesReducer from '../features/search/speciesSlice';
 
 export const store = configureStore({
   reducer: {
     pokemon: dexReducer,
-    evoLine: evoReducer
+    evoLine: evoReducer,
+    speciesData: speciesReducer
   },
 });
 

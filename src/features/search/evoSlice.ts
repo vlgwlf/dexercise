@@ -13,6 +13,12 @@ export const fetchEvolutions = createAsyncThunk('fetchEvolutions', (query: strin
   .then(response => response.data)
 )
 
+export const fetchSpecies = createAsyncThunk('fetchSpecies', (query: string) => 
+  axios
+  .get(`https://pokeapi.co/api/v2/pokemon-species/${query}/`)
+  .then(response => response.data)
+)
+
 const initialState = {
   raw_evolution_chain: [],
   loading_evos: false,
@@ -24,19 +30,19 @@ export const evoSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchEvolutions.pending, (state: EvolutionLineState) => {
-      state.loading_evos = true
-    })
-    builder.addCase(fetchEvolutions.fulfilled, (state: EvolutionLineState, action) => {
-      state.loading_evos = false
-      state.evo_error = ''
-      state.raw_evolution_chain = action.payload
-    })
-    builder.addCase(fetchEvolutions.rejected, (state: EvolutionLineState, action) => {
-      state.loading_evos = false
-      state.raw_evolution_chain = []
-      state.evo_error = action.error.message
-    })
+    // builder.addCase(fetchEvolutions.pending, (state: EvolutionLineState) => {
+    //   state.loading_evos = true
+    // })
+    // builder.addCase(fetchEvolutions.fulfilled, (state: EvolutionLineState, action) => {
+    //   state.loading_evos = false
+    //   state.evo_error = ''
+    //   state.raw_evolution_chain = action.payload
+    // })
+    // builder.addCase(fetchEvolutions.rejected, (state: EvolutionLineState, action) => {
+    //   state.loading_evos = false
+    //   state.raw_evolution_chain = []
+    //   state.evo_error = action.error.message
+    // })
   }
 })
 

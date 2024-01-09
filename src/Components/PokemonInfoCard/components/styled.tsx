@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { type_to_hex_dict } from "../../common/reference-tables";
+import { type_to_hex_dict } from "../../../utils/reference-tables";
 
 const rotate = keyframes`
   from {
@@ -83,6 +83,16 @@ const NameLabel = styled.label<{$size?: string}>`
   font-size: ${props => props.$size === 'lg' ? '1.25rem' : '1rem'}
 `
 
+const Description = styled.label`
+  color: #7a7a7a;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+  padding: 0;
+  font-size: 0.75rem;
+  font-style: italic;
+`
+
 const TypeBadge = styled.div<{$type: string}>`
   display: flex;
   align-items: center;
@@ -122,5 +132,6 @@ export {
   Column,
   Row,
   MainSprite,
-  PokeLoader
+  PokeLoader,
+  Description
 }

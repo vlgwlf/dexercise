@@ -35,3 +35,8 @@ export interface Stat {
   base_stat: Number;
   name: string;
 }
+
+export interface SpeciesInfo {
+  flavor_text: string;
+  genus: string;
+}
