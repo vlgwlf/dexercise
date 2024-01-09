@@ -29,14 +29,24 @@ export const apiToPokemonFormat = (pokemon_data: any): Pokemon | null => {
 
 export const apiToSpeciesFormat = (species_data: any): SpeciesInfo | null => {
   if (species_data.order) {
+    let evo_chain_no = species_data.evolution_chain.url.split('/')
     let formatted: SpeciesInfo = {
       flavor_text: findENText(species_data.flavor_text_entries, 'flavor_text'),
-      genus: findENText(species_data.genera, 'genus')
+      genus: findENText(species_data.genera, 'genus'),
+      evo_chain_no: evo_chain_no[evo_chain_no.length - 2]
     }
 
     return formatted
   }
 
+  return null
+}
+
+export const apiToEvolutionsFormat = (evo_data: any): any | null => {
+  if (evo_data.chain) {
+    let formatted: any = []
+    return getEvolutions(formatted, evo_data.chain)
+  }
   return null
 }
 
@@ -49,4 +59,30 @@ const findENText = (languages: any[], parameter: string): string => {
   })
   
   return en_text
+}
+
+function getEvolutions (data: any, evo: any): any {
+  if (evo.evolves_to) {
+    let splitUrl = evo.species.url.split('/')
+    data.push({
+      species_name: evo.species.name,
+      species_no: splitUrl[splitUrl.length - 2]
+    })
+    if (evo.evolves_to.length > 1) {
+      evo.evolves_to.forEach((evo: any) => {
+        let splitUrl = evo.species.url.split('/')
+        data.push({
+          species_name: evo.species.name,
+          species_no: splitUrl[splitUrl.length - 2]
+        })
+      })
+    }
+    if (evo.evolves_to.length === 1) {
+      return getEvolutions(data, evo.evolves_to[0])
+    } else {
+      return data
+    }
+  } else {
+    return null
+  }
 }

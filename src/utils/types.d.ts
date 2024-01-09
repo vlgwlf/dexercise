@@ -39,4 +39,5 @@ export interface Stat {
 export interface SpeciesInfo {
   flavor_text: string;
   genus: string;
+  evo_chain_no: string;
 }

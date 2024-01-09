@@ -43,6 +43,23 @@ const Row = styled.div<{
   justify-content: ${props => props.$spacing ? props.$spacing : 'flex-start'};
 `
 
+const ScrollRow = styled(Row)`
+  overflow-x: scroll;
+  max-width: 15rem;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    height: 3px;
+  };
+  &::-webkit-scrollbar-thumb {
+    background-color: #424242;
+    border-radius: 10rem;
+    height: 3px;
+  }
+  &-ms-overflow-style {
+    background-color: transparent;
+  };
+`
+
 const Column = styled.div<{
   $align: string,
   $margin?: boolean,
@@ -133,5 +150,6 @@ export {
   Row,
   MainSprite,
   PokeLoader,
-  Description
+  Description,
+  ScrollRow
 }

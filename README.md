@@ -10,7 +10,7 @@ To run this project locally you must:
 
 # Observations
 
-1. Evolution line turned out to be a bit more complex than I'd initially thought since there's no straightforward way of getting to it, and it required a recursive function (as far as I saw) to get the information to a useable level with my adapters.
+~1. Evolution line turned out to be a bit more complex than I'd initially thought since there's no straightforward way of getting to it, and it required a recursive function (as far as I saw) to get the information to a useable level with my adapters.~
 
 2. Speaking of the adapters -- as they are a *critical* point of functionality between the app and the api, they need to be exhaustively tested, the interfaces do a lot of the heavy lifting by forcing the input and output to match what's expected, but some unit tests covering different types of input would be ideal.
 

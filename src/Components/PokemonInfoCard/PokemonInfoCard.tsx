@@ -9,13 +9,16 @@ import {
   Column,
   TypeBadge,
   PokeLoader,
-  Description
+  Description,
+  ScrollRow
 } from './components/styled';
+import { Sprite } from '../HistoryPokemonCard/components/styled';
 import { PokedexState, setCurrentPokemon, pushToHistory } from '../../features/search/dexSlice';
 import { SpeciesInfoState, fetchSpecies, setSpeciesInfo } from '../../features/search/speciesSlice';
 import { Ability, Pokemon, SpeciesInfo, Stat } from '../../utils/types';
 import { api_to_readable_stat } from '../../utils/reference-tables';
 import { AppDispatch } from '../../app/store';
+import { EvolutionLineState, fetchEvolutions, setEvolutionChain } from '../../features/search/evoSlice';
 
 const PokemonInfoCard = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -23,6 +26,8 @@ const PokemonInfoCard = () => {
   const formatted_mon: Pokemon | null = useSelector((state: {pokemon: PokedexState}) => state.pokemon.current_mon)
   const raw_species_info = useSelector((state: {speciesData: SpeciesInfoState}) => state.speciesData.raw_species_info)
   const species_info: SpeciesInfo | null = useSelector((state: {speciesData: SpeciesInfoState}) => state.speciesData.current_info)
+  const evolution_line: any = useSelector((state: { evoLine: EvolutionLineState }) => state.evoLine.raw_evolution_chain) //placeholder
+  const formatted_evolution_line: any = useSelector((state: { evoLine: EvolutionLineState }) => state.evoLine.formatted_evos) //placeholder
 
   useEffect(() => {
     dispatch(setCurrentPokemon(current_raw_mon))
@@ -34,7 +39,6 @@ const PokemonInfoCard = () => {
   
   const loading: Boolean = useSelector((state: { pokemon: PokedexState }) => state.pokemon.loading)
   const error: String | undefined = useSelector((state: { pokemon: PokedexState }) => state.pokemon.error)
-
 
   useEffect(() => {
     if (current_raw_mon) {
@@ -48,8 +52,19 @@ const PokemonInfoCard = () => {
       dispatch(setSpeciesInfo(raw_species_info))
     }
   }, [raw_species_info])
+  
+  useEffect(() => {
+    if (species_info?.evo_chain_no) {
+      dispatch(fetchEvolutions(species_info.evo_chain_no))
+    }
+  }, [species_info])
+  
+  useEffect(() => {
+    if (evolution_line.chain) {
+      dispatch(setEvolutionChain(evolution_line))
+    }
+  }, [evolution_line])
 
-  const evolution_line: any = [] //placeholder
 
   return !loading && formatted_mon
     ? (
@@ -75,24 +90,33 @@ const PokemonInfoCard = () => {
             </Row>
           </Column>
           <Column $align='left' aria-label="Detailed information display">
-            {/* <Row $align='flex-start' $spacing='flex-start'>
+            <Row $align='flex-start' $spacing='flex-start'>
               <Column $align='left'>
                 <MainHeader>
                   Evolutions
                 </MainHeader>
-                <Row $no_padding $spacing='flex-start'>
+                <ScrollRow $no_padding $spacing='flex-start'>
                   {
-                      evolution_line.length
+                      formatted_evolution_line && formatted_evolution_line.length
                       ? (
-                          evolution_line.length
-                          ? evolution_line.map((evo_data: any) => evo_data.name)
+                          formatted_evolution_line.length
+                          ? formatted_evolution_line.map((evo_data: any) => 
+                            <Column $align='center'>
+                              <Sprite src={
+                                `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/${evo_data.species_no}.png`
+                              }/>
+                              <div>
+                                <Description>{`${evo_data.species_name}`}</Description>
+                              </div>
+                            </Column>
+                          )
                           : null
                         )
                     : <NameLabel>No evo</NameLabel>
                   }
-                </Row>
+                </ScrollRow>
               </Column>
-            </Row> */}
+            </Row>
             <Row $spacing='space-between'> {/* Stat & Ability Row */}
               <Column $align='flex-start'>
                 <MainHeader>
