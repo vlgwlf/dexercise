@@ -44,7 +44,6 @@ export const dexSlice: Slice = createSlice({
           let newHistory = state.history.filter((mon: Pokemon) => 
             mon.name !== action.payload.name
           )
-          console.log(newHistory)
           state.history = [action.payload, ...newHistory]
         } else {
           state.history = [action.payload, ...state.history]

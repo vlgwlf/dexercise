@@ -28,7 +28,6 @@ export const apiToPokemonFormat = (pokemon_data: any): Pokemon | null => {
 };
 
 export const apiToSpeciesFormat = (species_data: any): SpeciesInfo | null => {
-  console.log(species_data)
   if (species_data.order) {
     let formatted: SpeciesInfo = {
       flavor_text: findENText(species_data.flavor_text_entries, 'flavor_text'),
