@@ -46,7 +46,6 @@ const HistoryList = () => {
   const curr_mon: Pokemon | null = useSelector((state: {pokemon: PokedexState}) => state.pokemon.current_mon)
   
   const revisitPokemon = (pokemon: Pokemon) => {
-    //@ts-expect-error
     dispatch(pushToHistory(curr_mon))
     dispatch(removeFromHistory(pokemon))
     dispatch(setCurrentPokemon(pokemon))

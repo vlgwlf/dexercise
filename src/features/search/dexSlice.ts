@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction, Slice } from "@reduxjs/toolkit";
 import axios from 'axios'
 import { Pokemon } from "../../utils/types";
 import { apiToPokemonFormat } from "../../utils/adapter";
@@ -25,7 +25,7 @@ const initialState: PokedexState = {
   current_mon: null
 }
 
-export const dexSlice = createSlice({
+export const dexSlice: Slice = createSlice({
   name: 'dexData',
   initialState,
   reducers: {
@@ -64,8 +64,6 @@ export const dexSlice = createSlice({
         ...state.history.slice(0, mon_index),
         ...state.history.slice(mon_index+1, state.history.length)
       ]
-
-      console.log(state.history, mon_index, new_history)
       
       state.history = new_history
     }

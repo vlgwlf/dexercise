@@ -15,6 +15,7 @@ const CardBody = styled.div<{$type?: string}>`
   border-color: ${props => props.$type ? type_to_hex_dict[props.$type] : '#eeeeee'};
   border-style: solid;
   border-width: 3px;
+  cursor: pointer;
 `
 
 const Sprite = styled.img`

@@ -8,24 +8,23 @@ import { Row, Column } from '../../Components/PokemonInfoCard/components/styled'
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-content: center;
-  justify-content: center;
   background-color: #A42323;
   color: #eeeeee;
   height: 100vh;
   position: relative;
+  margin: none;
 `
 
 const MainColumn = styled(Column)`
-  justify-content: center;
+  justify-items: center;
 `
 
 const MainDexContainer = () => {
   return (
     <MainContainer>
       <SearchBar/>
-      <MainColumn $align='flex-start' $alignSelf='center'>
-        <Row>
+      <MainColumn $align='center' $alignSelf='center'>
+        <Row $spacing='center'>
           <PokemonInfoCard/>
         </Row>
         <Row $spacing='center'>

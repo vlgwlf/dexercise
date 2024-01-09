@@ -51,9 +51,7 @@ const PokemonInfoCard = () => {
             <Row>
               {
                 formatted_mon.types.length
-                ? formatted_mon.types.map(type => {
-                  return <TypeBadge key={type} $type={type}>{type}</TypeBadge>
-                })
+                ? formatted_mon.types.map(type => <TypeBadge key={type} $type={type}>{type}</TypeBadge>)
                 : null
               }
             </Row>
@@ -125,12 +123,12 @@ const PokemonInfoCard = () => {
         </Column>
       </CardBody>
       : <CardBody>
-      <Row $align='center'>
-        <Column $align='center' $alignSelf='center'>
-          <PokeLoader $loading={loading} src='https://i.pinimg.com/originals/09/a6/ae/09a6ae937a6d9ef5cd10d132b59d6f5d.png'/>
-        </Column>
-      </Row>
-    </CardBody>
+          <Row $align='center' $spacing='center'>
+            <Column $align='center' $alignSelf='center'>
+              <PokeLoader $loading={loading} src='https://i.pinimg.com/originals/09/a6/ae/09a6ae937a6d9ef5cd10d132b59d6f5d.png'/>
+            </Column>
+          </Row>
+        </CardBody>
 }
 
 export default PokemonInfoCard

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, SyntheticEvent } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
@@ -35,9 +35,16 @@ const StyledButton = styled.button`
 const SearchInput = () => {
   const [query, setQuery] = useState('')
   const dispatch = useDispatch<AppDispatch>();
+
   const updateQuery = useCallback((e: React.BaseSyntheticEvent) => {
     setQuery(e.target.value.toLowerCase());
   }, [query])
+
+  const search = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      searchPokemon()
+    }
+  }
 
   const searchPokemon = () => {
     dispatch(fetchPokemon(query))
@@ -45,7 +52,7 @@ const SearchInput = () => {
 
   return (
     <InputWrapper>
-      <StyledInput placeholder="e.g. Mew or 151" type="text" aria-label='Pokemon Search' onChange={updateQuery}/>
+      <StyledInput placeholder="e.g. Mew or 151" type="text" aria-label='Pokemon Search' onChange={updateQuery} onKeyDown={search}/>
       <StyledButton onClick={searchPokemon}>Search</StyledButton>
     </InputWrapper>
   )

@@ -23,6 +23,7 @@ const CardBody = styled.div`
   max-height: 75rem;
   max-width: 120rem;
   justify-content: space-between;
+  justify-self: center;
 `
 
 const Row = styled.div<{
